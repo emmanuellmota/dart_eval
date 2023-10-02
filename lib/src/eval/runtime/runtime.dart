@@ -204,7 +204,11 @@ class Runtime {
       final libIndex = _bridgeLibraryMappings[ule.library]!;
       final mapping = bridgeEnumMappings[libIndex]![ule.name]!;
       for (final value in ule.values.entries) {
-        globals[mapping[value.key]!] = value.value;
+        try {
+          globals[mapping[value.key]!] = value.value;
+        } catch (e) {
+          print('Could not find value [${ule.name}.${value.key}] from library [${ule.library}]');
+        }
       }
     }
   }
